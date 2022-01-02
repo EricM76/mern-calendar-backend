@@ -8,10 +8,10 @@ var logger = require('morgan');
 const dbConnection = require('./database/config');
 const cors = require('cors');
 
+var app = express();
+
 /* CORS */
 app.use(cors());
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
