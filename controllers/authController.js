@@ -37,7 +37,8 @@ module.exports = {
             console.log(error)
             res.status(500).json({
                 ok: false,
-                msg: 'Contáctese con el administrador del sitio'
+                msg: 'Contáctese con el administrador del sitio',
+                error
             })
         }
 
