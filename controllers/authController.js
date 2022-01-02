@@ -52,6 +52,7 @@ module.exports = {
             const validPassword = user && bcrypt.compareSync(password, user.password)
 
             if (!user || !validPassword) {
+    
                 return res.status(400).json({
                     ok: false,
                     msg: 'Credenciales inválidas'
