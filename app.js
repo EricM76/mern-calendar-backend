@@ -8,6 +8,9 @@ var logger = require('morgan');
 const dbConnection = require('./database/config');
 const cors = require('cors');
 
+/* CORS */
+app.use(cors());
+
 var app = express();
 
 // view engine setup
@@ -23,8 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* database */
 dbConnection()
 
-/* CORS */
-app.use(cors());
+
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/events', require('./routes/eventsRoutes'));
