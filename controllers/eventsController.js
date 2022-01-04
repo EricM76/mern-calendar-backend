@@ -11,12 +11,14 @@ module.exports = {
             const events = await Event.find().populate('user', 'name');
             return res.status(200).json({
                 ok: true,
+                code: res.statusCode,
                 events
             })
 
         } catch (error) {
             return res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Comuníquese con el administrador del sitio'
             })
         }
@@ -33,15 +35,19 @@ module.exports = {
 
             await event.save();
 
-            return res.json({
+            return res.status(200).json({
                 ok: true,
-                msg: "Evento guardardado con éxito"
+                code: res.statusCode,
+                event,
+                msg: "Evento guardardado con éxito",
+                
             })
 
 
         } catch (error) {
             return res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Comuníquese con el administrador del sitio'
             })
         }
@@ -57,6 +63,7 @@ module.exports = {
             if (!event) {
                 return res.status(404).json({
                     ok: false,
+                    code: res.statusCode,
                     msg: 'No existe el evento'
                 })
             }
@@ -64,6 +71,7 @@ module.exports = {
             if (event.user.toString() !== req.uid) {
                 return res.status(401).json({
                     ok: false,
+                    code: res.statusCode,
                     msg: 'No está autorizado para editar este evento'
                 })
             }
@@ -73,10 +81,12 @@ module.exports = {
                 user: req.uid
             }
 
-            await Event.findByIdAndUpdate(req.params.id, newEvent)
+            let eventUpdated = await Event.findByIdAndUpdate(req.params.id, newEvent)
 
             res.status(200).json({
                 ok: true,
+                code: res.statusCode,
+                event : eventUpdated,
                 msg: 'evento actualizado'
             })
 
@@ -84,6 +94,7 @@ module.exports = {
             console.log(error)
             return res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Comuníquese con el administrador del sitio'
             })
         }
@@ -97,6 +108,7 @@ module.exports = {
             if (!event) {
                 return res.status(404).json({
                     ok: false,
+                    code: res.statusCode,
                     msg: 'No existe el evento'
                 })
             }
@@ -104,7 +116,8 @@ module.exports = {
             if (event.user.toString() !== req.uid) {
                 return res.status(401).json({
                     ok: false,
-                    msg: 'No está autorizado para editar este evento'
+                    code: res.statusCode,
+                    msg: 'No está autorizado para eliminar este evento'
                 })
             }
 
@@ -112,6 +125,7 @@ module.exports = {
 
             res.status(200).json({
                 ok: true,
+                code: res.statusCode,
             })
 
         } catch (error) {
@@ -119,6 +133,7 @@ module.exports = {
             console.log(error);
             return res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Comuníquese con el administrador del sitio'
             })
         }

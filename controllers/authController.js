@@ -55,6 +55,7 @@ module.exports = {
     
                 return res.status(400).json({
                     ok: false,
+                    code: res.statusCode,
                     msg: 'Credenciales inválidas'
                 })
             }
@@ -64,6 +65,7 @@ module.exports = {
 
             res.status(200).json({
                 ok: true,
+                code: res.statusCode,
                 uid: user.id,
                 name: user.name,
                 token
@@ -73,6 +75,7 @@ module.exports = {
             console.log(error)
             res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Contáctese con el administrador del sitio'
             })
         }
@@ -82,15 +85,19 @@ module.exports = {
     revalidateToken: async (req, res) => {
 
         try {
-            const token = await JWTGenerator(req.id, req.name);
-
-            res.json({
+            const token = await JWTGenerator(req.uid, req.name);
+            console.log(req.uid)
+            res.status(200).json({
                 ok: true,
+                code: res.statusCode,
+                uid: req.uid,
+                name: req.name,
                 token
             })
         } catch (error) {
             res.status(500).json({
                 ok: false,
+                code: res.statusCode,
                 msg: 'Contáctese con el administrador del sitio'
             })
         }

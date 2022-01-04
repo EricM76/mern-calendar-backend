@@ -10,7 +10,17 @@ module.exports = [
 
     check('start')
         .notEmpty().withMessage('La fecha de inicio es obligatoria')
-        .isDate().withMessage('La fecha de inicio es incorrecta')
+        .custom((value) => {
+            if(!value){
+                return false
+            }
+            const date = moment(value);
+            if(date.isValid()){
+                return true
+            }else{
+                return false
+            }
+        }).withMessage('La fecha de inicio es incorrecta')
         .custom((value, {req}) => {
             if(moment(value).diff(moment(),'days') < 0){
                 return false
@@ -21,7 +31,17 @@ module.exports = [
     
     check('end')
         .notEmpty().withMessage('La fecha de finalización es obligatoria')
-        .isDate().withMessage('La fecha de finalización es incorrecta')
+        .custom((value) => {
+            if(!value){
+                return false
+            }
+            const date = moment(value);
+            if(date.isValid()){
+                return true
+            }else{
+                return false
+            }
+        }).withMessage('La fecha de finalización es incorrecta')
         .custom((value, {req}) => {
             console.log(value, req.body.start)
             if(moment(value) < moment(req.body.start)) {
